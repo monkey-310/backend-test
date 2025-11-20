@@ -16,7 +16,6 @@ import { AuthController } from './auth.controller';
   ],
   providers: [JwtStrategy],
   controllers: [AuthController],
-  exports: [JwtModule]
+  exports: [JwtModule],
 })
-
 export class AuthModule {}

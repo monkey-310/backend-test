@@ -82,7 +82,7 @@ describe('ReportsService', () => {
     it('should calculate percentage for date range', async () => {
       const from = new Date('2024-01-01');
       const to = new Date('2024-12-31');
-      
+
       mockProductsService.countNonDeleted.mockResolvedValue(100);
       mockProductsService.countNonDeletedInDateRange.mockResolvedValue(30);
 

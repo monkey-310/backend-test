@@ -25,9 +25,9 @@ export class AuthController {
     const validPassword = process.env.AUTH_PASSWORD || 'password';
 
     if (loginDto.email === validEmail && loginDto.password === validPassword) {
-      const payload = { 
-        sub: '1', 
-        email: loginDto.email 
+      const payload = {
+        sub: '1',
+        email: loginDto.email,
       };
       const token = this.jwtService.sign(payload);
       return { access_token: token };

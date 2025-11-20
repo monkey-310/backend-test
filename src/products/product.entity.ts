@@ -1,9 +1,4 @@
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-  Index,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, Index } from 'typeorm';
 
 @Entity()
 export class Product {
@@ -32,22 +27,22 @@ export class Product {
   @Column()
   category: string;
 
-  @Column({ type: 'numeric'})
+  @Column({ type: 'numeric' })
   price: number;
 
   @Column()
   currency: string;
 
-  @Column({ type: 'numeric'})
+  @Column({ type: 'numeric' })
   stock: number;
 
   @Column({ default: false })
   deleted: boolean;
 
-  @Column({ type: 'timestamp'})
+  @Column({ type: 'timestamp' })
   created_at: Date;
 
-  @Column({ type: 'timestamp'})
+  @Column({ type: 'timestamp' })
   updated_at: Date;
 
   @Column({ type: 'timestamp', nullable: true })

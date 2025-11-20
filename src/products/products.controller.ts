@@ -1,4 +1,11 @@
-import { Controller, Get, Query, Delete, Param, HttpCode } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  Delete,
+  Param,
+  HttpCode,
+} from '@nestjs/common';
 import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
 import { ProductsService } from './products.service';
 import { FilterProductsDto } from './dto/filter-products.dto';

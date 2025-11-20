@@ -29,7 +29,7 @@ export class ProductsService {
 
     let product = await this.repo.findOne({ where: { sys_id: sysId } });
 
-    if(product && product.deleted) {
+    if (product && product.deleted) {
       return product;
     }
 
@@ -37,7 +37,7 @@ export class ProductsService {
       product = this.repo.create({ sys_id: sysId });
     }
 
-    product.sku = sku
+    product.sku = sku;
     product.name = name;
     product.brand = brand;
     product.category = category;
@@ -46,9 +46,9 @@ export class ProductsService {
     product.color = color;
     product.currency = currency;
     product.stock = stock;
-    product.created_at = createdAt
-    product.updated_at = updatedAt
-    
+    product.created_at = createdAt;
+    product.updated_at = updatedAt;
+
     return this.repo.save(product);
   }
 
@@ -66,10 +66,7 @@ export class ProductsService {
       where.category = category;
     }
     if (minPrice !== undefined || maxPrice !== undefined) {
-      where.price = Between(
-        minPrice ?? 0,
-        maxPrice ?? Number.MAX_SAFE_INTEGER,
-      );
+      where.price = Between(minPrice ?? 0, maxPrice ?? Number.MAX_SAFE_INTEGER);
     }
 
     const [items, total] = await this.repo.findAndCount({
@@ -111,16 +108,16 @@ export class ProductsService {
   async countNonDeletedWithPrice(hasPrice: boolean): Promise<number> {
     if (hasPrice) {
       return this.repo.count({
-        where: { 
-          deleted: false, 
-          price: Between(0, Number.MAX_SAFE_INTEGER) 
+        where: {
+          deleted: false,
+          price: Between(0, Number.MAX_SAFE_INTEGER),
         },
       });
     } else {
       return this.repo.count({
-        where: { 
-          deleted: false, 
-          price: IsNull() 
+        where: {
+          deleted: false,
+          price: IsNull(),
         },
       });
     }

@@ -40,7 +40,11 @@ describe('ProductsService', () => {
   describe('upsertFromContentful', () => {
     it('should create a new product if it does not exist', async () => {
       const entry = {
-        sys: { id: 'sys-123', createdAt: '2024-01-01', updatedAt: '2024-01-02' },
+        sys: {
+          id: 'sys-123',
+          createdAt: '2024-01-01',
+          updatedAt: '2024-01-02',
+        },
         fields: {
           sku: 'SKU-001',
           name: 'Test Product',
@@ -60,7 +64,9 @@ describe('ProductsService', () => {
 
       const result = await service.upsertFromContentful(entry);
 
-      expect(mockRepository.findOne).toHaveBeenCalledWith({ where: { sys_id: 'sys-123' } });
+      expect(mockRepository.findOne).toHaveBeenCalledWith({
+        where: { sys_id: 'sys-123' },
+      });
       expect(mockRepository.create).toHaveBeenCalled();
       expect(mockRepository.save).toHaveBeenCalled();
       expect(result).toBeDefined();
@@ -68,7 +74,11 @@ describe('ProductsService', () => {
 
     it('should not update a deleted product', async () => {
       const entry = {
-        sys: { id: 'sys-123', createdAt: '2024-01-01', updatedAt: '2024-01-02' },
+        sys: {
+          id: 'sys-123',
+          createdAt: '2024-01-01',
+          updatedAt: '2024-01-02',
+        },
         fields: { sku: 'SKU-001', name: 'Updated Name' },
       };
 
@@ -89,7 +99,11 @@ describe('ProductsService', () => {
 
     it('should update an existing non-deleted product', async () => {
       const entry = {
-        sys: { id: 'sys-123', createdAt: '2024-01-01', updatedAt: '2024-01-02' },
+        sys: {
+          id: 'sys-123',
+          createdAt: '2024-01-01',
+          updatedAt: '2024-01-02',
+        },
         fields: {
           sku: 'SKU-001',
           name: 'Updated Product',
@@ -111,7 +125,10 @@ describe('ProductsService', () => {
       };
 
       mockRepository.findOne.mockResolvedValue(existingProduct);
-      mockRepository.save.mockResolvedValue({ ...existingProduct, name: 'Updated Product' });
+      mockRepository.save.mockResolvedValue({
+        ...existingProduct,
+        name: 'Updated Product',
+      });
 
       const result = await service.upsertFromContentful(entry);
 
@@ -123,8 +140,10 @@ describe('ProductsService', () => {
   describe('findPublic', () => {
     it('should return paginated products with max 5 items per page', async () => {
       const filter: FilterProductsDto = { page: 1, limit: 10 };
-      const mockProducts = Array(3).fill(null).map((_, i) => ({ id: `id-${i}`, name: `Product ${i}` }));
-      
+      const mockProducts = Array(3)
+        .fill(null)
+        .map((_, i) => ({ id: `id-${i}`, name: `Product ${i}` }));
+
       mockRepository.findAndCount.mockResolvedValue([mockProducts, 3]);
 
       const result = await service.findPublic(filter);
@@ -135,7 +154,7 @@ describe('ProductsService', () => {
         expect.objectContaining({
           skip: 0,
           take: 5,
-        })
+        }),
       );
     });
 
@@ -150,12 +169,16 @@ describe('ProductsService', () => {
           where: expect.objectContaining({
             name: expect.anything(),
           }),
-        })
+        }),
       );
     });
 
     it('should filter by category', async () => {
-      const filter: FilterProductsDto = { page: 1, limit: 5, category: 'Electronics' };
+      const filter: FilterProductsDto = {
+        page: 1,
+        limit: 5,
+        category: 'Electronics',
+      };
       mockRepository.findAndCount.mockResolvedValue([[], 0]);
 
       await service.findPublic(filter);
@@ -165,12 +188,17 @@ describe('ProductsService', () => {
           where: expect.objectContaining({
             category: 'Electronics',
           }),
-        })
+        }),
       );
     });
 
     it('should filter by price range', async () => {
-      const filter: FilterProductsDto = { page: 1, limit: 5, minPrice: 10, maxPrice: 100 };
+      const filter: FilterProductsDto = {
+        page: 1,
+        limit: 5,
+        minPrice: 10,
+        maxPrice: 100,
+      };
       mockRepository.findAndCount.mockResolvedValue([[], 0]);
 
       await service.findPublic(filter);
@@ -180,7 +208,7 @@ describe('ProductsService', () => {
           where: expect.objectContaining({
             price: expect.anything(),
           }),
-        })
+        }),
       );
     });
   });
@@ -189,7 +217,11 @@ describe('ProductsService', () => {
     it('should mark product as deleted', async () => {
       const product = { id: 'uuid', deleted: false };
       mockRepository.findOne.mockResolvedValue(product);
-      mockRepository.save.mockResolvedValue({ ...product, deleted: true, deleted_at: new Date() });
+      mockRepository.save.mockResolvedValue({
+        ...product,
+        deleted: true,
+        deleted_at: new Date(),
+      });
 
       await service.softDelete('uuid');
 

@@ -18,7 +18,8 @@ export class ReportsService {
     const totalNonDeleted = await this.productsService.countNonDeleted();
     const count = await this.productsService.countNonDeletedWithPrice(hasPrice);
 
-    const percentage = totalNonDeleted === 0 ? 0 : (count / totalNonDeleted) * 100;
+    const percentage =
+      totalNonDeleted === 0 ? 0 : (count / totalNonDeleted) * 100;
 
     return {
       totalNonDeleted,
@@ -30,8 +31,12 @@ export class ReportsService {
 
   async getNonDeletedInDateRange(from: Date, to: Date) {
     const totalNonDeleted = await this.productsService.countNonDeleted();
-    const count = await this.productsService.countNonDeletedInDateRange(from, to);
-    const percentage = totalNonDeleted === 0 ? 0 : (count / totalNonDeleted) * 100;
+    const count = await this.productsService.countNonDeletedInDateRange(
+      from,
+      to,
+    );
+    const percentage =
+      totalNonDeleted === 0 ? 0 : (count / totalNonDeleted) * 100;
 
     return { totalNonDeleted, from, to, count, percentage };
   }

@@ -29,5 +29,4 @@ import { Product } from './products/product.entity';
     AuthModule,
   ],
 })
-
 export class AppModule {}

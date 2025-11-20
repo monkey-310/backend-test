@@ -35,7 +35,7 @@ describe('ProductsController', () => {
     it('should return products', async () => {
       const filter: FilterProductsDto = { page: 1, limit: 5 };
       const mockResult = { page: 1, limit: 5, total: 10, items: [] };
-      
+
       mockProductsService.findPublic.mockResolvedValue(mockResult);
 
       const result = await controller.getProducts(filter);

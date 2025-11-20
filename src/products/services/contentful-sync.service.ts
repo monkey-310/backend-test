@@ -23,11 +23,11 @@ export class ContentfulSyncService {
       return;
     }
 
-    const url = 
-      `https://cdn.contentful.com/spaces/${spaceId}` + 
-      `/environments/${environmentId}` + 
+    const url =
+      `https://cdn.contentful.com/spaces/${spaceId}` +
+      `/environments/${environmentId}` +
       `/entries?access_token=${accessToken}&content_type=${contentType}`;
-    
+
     try {
       const { data } = await axios.get(url);
       const entries = data.items ?? [];
@@ -36,7 +36,9 @@ export class ContentfulSyncService {
         await this.productsService.upsertFromContentful(entry);
       }
 
-      this.logger.log(`Contentful sync completed. Synced ${entries.length} items.`);
+      this.logger.log(
+        `Contentful sync completed. Synced ${entries.length} items.`,
+      );
     } catch (err) {
       this.logger.error('Error syncing Contentful data', err);
     }
