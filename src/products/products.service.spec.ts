@@ -167,7 +167,9 @@ describe('ProductsService', () => {
 
       expect(mockRepository.findAndCount).toHaveBeenCalledWith(
         expect.objectContaining({
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           where: expect.objectContaining({
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             name: expect.any(Object),
           }),
         }),
@@ -186,6 +188,7 @@ describe('ProductsService', () => {
 
       expect(mockRepository.findAndCount).toHaveBeenCalledWith(
         expect.objectContaining({
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           where: expect.objectContaining({
             category: 'Electronics',
           }),
@@ -206,7 +209,9 @@ describe('ProductsService', () => {
 
       expect(mockRepository.findAndCount).toHaveBeenCalledWith(
         expect.objectContaining({
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           where: expect.objectContaining({
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             price: expect.any(Object),
           }),
         }),

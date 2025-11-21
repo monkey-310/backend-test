@@ -16,10 +16,19 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  afterEach(async () => {
+    await app.close();
+  });
+
+  it('/products (GET)', () => {
     return request(app.getHttpServer())
-      .get('/')
+      .get('/products?page=1&limit=5')
       .expect(200)
-      .expect('Hello World!');
+      .expect((res) => {
+        expect(res.body).toHaveProperty('page');
+        expect(res.body).toHaveProperty('limit');
+        expect(res.body).toHaveProperty('total');
+        expect(res.body).toHaveProperty('items');
+      });
   });
 });

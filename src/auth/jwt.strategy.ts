@@ -6,10 +6,13 @@ import { JwtPayload } from '../types/auth';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
+    const extractJwt = ExtractJwt as {
+      fromAuthHeaderAsBearerToken: () => (request: unknown) => string | null;
+    };
+
+    // eslint-disable-next-line
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken() as (
-        request: unknown,
-      ) => string | null,
+      jwtFromRequest: extractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
       secretOrKey: process.env.JWT_SECRET || 'secret-dev-key',
     });

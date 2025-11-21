@@ -5,7 +5,6 @@ import { FilterProductsDto } from './dto/filter-products.dto';
 
 describe('ProductsController', () => {
   let controller: ProductsController;
-  let service: ProductsService;
 
   const mockProductsService = {
     findPublic: jest.fn(),
@@ -24,7 +23,6 @@ describe('ProductsController', () => {
     }).compile();
 
     controller = module.get<ProductsController>(ProductsController);
-    service = module.get<ProductsService>(ProductsService);
   });
 
   afterEach(() => {
@@ -41,7 +39,7 @@ describe('ProductsController', () => {
       const result = await controller.getProducts(filter);
 
       expect(result).toEqual(mockResult);
-      expect(service.findPublic).toHaveBeenCalledWith(filter);
+      expect(mockProductsService.findPublic).toHaveBeenCalledWith(filter);
     });
   });
 
@@ -51,7 +49,7 @@ describe('ProductsController', () => {
 
       await controller.deleteProduct('uuid');
 
-      expect(service.softDelete).toHaveBeenCalledWith('uuid');
+      expect(mockProductsService.softDelete).toHaveBeenCalledWith('uuid');
     });
   });
 });
