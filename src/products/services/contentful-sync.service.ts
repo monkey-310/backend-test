@@ -1,5 +1,5 @@
 import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { Interval } from '@nestjs/schedule';
 import axios from 'axios';
 import { ProductsService } from '../products.service';
 
@@ -14,9 +14,9 @@ export class ContentfulSyncService implements OnApplicationBootstrap {
     await this.syncFromContentful();
   }
 
-  @Cron(CronExpression.EVERY_HOUR)
-  async handleCron() {
-    this.logger.log('Scheduled Contentful sync triggered...');
+  @Interval(60 * 60 * 1000)
+  async handleInterval() {
+    this.logger.log('Hourly Contentful sync triggered...');
     await this.syncFromContentful();
   }
 
