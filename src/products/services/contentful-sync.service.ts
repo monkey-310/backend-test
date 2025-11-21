@@ -2,6 +2,7 @@ import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
 import { Interval } from '@nestjs/schedule';
 import axios from 'axios';
 import { ProductsService } from '../products.service';
+import { ContentfulResponse } from '../../types/contentful';
 
 @Injectable()
 export class ContentfulSyncService implements OnApplicationBootstrap {
@@ -10,7 +11,9 @@ export class ContentfulSyncService implements OnApplicationBootstrap {
   constructor(private readonly productsService: ProductsService) {}
 
   async onApplicationBootstrap() {
-    this.logger.log('Application started - triggering initial Contentful sync...');
+    this.logger.log(
+      'Application started - triggering initial Contentful sync...',
+    );
     await this.syncFromContentful();
   }
 
@@ -37,7 +40,7 @@ export class ContentfulSyncService implements OnApplicationBootstrap {
       `/entries?access_token=${accessToken}&content_type=${contentType}`;
 
     try {
-      const { data } = await axios.get(url);
+      const { data } = await axios.get<ContentfulResponse>(url);
       const entries = data.items ?? [];
 
       for (const entry of entries) {
@@ -48,7 +51,8 @@ export class ContentfulSyncService implements OnApplicationBootstrap {
         `Contentful sync completed. Synced ${entries.length} items.`,
       );
     } catch (err) {
-      this.logger.error('Error syncing Contentful data', err);
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      this.logger.error('Error syncing Contentful data', errorMessage);
     }
   }
 }

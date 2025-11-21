@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ProductsService } from '../products/products.service';
+import type { CategoryRow } from '../types/reports';
 
 @Injectable()
 export class ReportsService {
@@ -8,7 +9,6 @@ export class ReportsService {
   async getDeletedPercentage() {
     const total = await this.productsService.countAll();
     const deleted = await this.productsService.countDeleted();
-
     const percentage = total === 0 ? 0 : (deleted / total) * 100;
 
     return { total, deleted, percentage };
@@ -17,7 +17,6 @@ export class ReportsService {
   async getNonDeletedPricePercentage(hasPrice: boolean) {
     const totalNonDeleted = await this.productsService.countNonDeleted();
     const count = await this.productsService.countNonDeletedWithPrice(hasPrice);
-
     const percentage =
       totalNonDeleted === 0 ? 0 : (count / totalNonDeleted) * 100;
 
@@ -43,7 +42,7 @@ export class ReportsService {
 
   async getCategoryReport() {
     const rows = await this.productsService.groupByCategory();
-    return rows.map((r) => ({
+    return rows.map((r: CategoryRow) => ({
       category: r.category,
       count: Number(r.count),
     }));

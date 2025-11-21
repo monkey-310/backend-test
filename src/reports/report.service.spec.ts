@@ -4,7 +4,6 @@ import { ProductsService } from '../products/products.service';
 
 describe('ReportsService', () => {
   let service: ReportsService;
-  let productsService: ProductsService;
 
   const mockProductsService = {
     countAll: jest.fn(),
@@ -27,7 +26,6 @@ describe('ReportsService', () => {
     }).compile();
 
     service = module.get<ReportsService>(ReportsService);
-    productsService = module.get<ProductsService>(ProductsService);
   });
 
   afterEach(() => {

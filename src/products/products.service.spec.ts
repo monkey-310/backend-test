@@ -1,13 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { ProductsService } from './products.service';
 import { Product } from './product.entity';
 import { FilterProductsDto } from './dto/filter-products.dto';
 
 describe('ProductsService', () => {
   let service: ProductsService;
-  let repository: Repository<Product>;
 
   const mockRepository = {
     findOne: jest.fn(),
@@ -30,7 +28,6 @@ describe('ProductsService', () => {
     }).compile();
 
     service = module.get<ProductsService>(ProductsService);
-    repository = module.get<Repository<Product>>(getRepositoryToken(Product));
   });
 
   afterEach(() => {
@@ -79,7 +76,11 @@ describe('ProductsService', () => {
           createdAt: '2024-01-01',
           updatedAt: '2024-01-02',
         },
-        fields: { sku: 'SKU-001', name: 'Updated Name' },
+        fields: {
+          sku: 'SKU-001',
+          name: 'Updated Name',
+          category: 'Electronics',
+        },
       };
 
       const deletedProduct = {
@@ -167,7 +168,7 @@ describe('ProductsService', () => {
       expect(mockRepository.findAndCount).toHaveBeenCalledWith(
         expect.objectContaining({
           where: expect.objectContaining({
-            name: expect.anything(),
+            name: expect.any(Object),
           }),
         }),
       );
@@ -206,7 +207,7 @@ describe('ProductsService', () => {
       expect(mockRepository.findAndCount).toHaveBeenCalledWith(
         expect.objectContaining({
           where: expect.objectContaining({
-            price: expect.anything(),
+            price: expect.any(Object),
           }),
         }),
       );

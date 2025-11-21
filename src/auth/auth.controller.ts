@@ -20,7 +20,7 @@ export class AuthController {
   })
   @ApiResponse({ status: 200, description: 'Token generated successfully' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async login(@Body() loginDto: { email: string; password: string }) {
+  login(@Body() loginDto: { email: string; password: string }) {
     const validEmail = process.env.AUTH_EMAIL || 'admin@example.com';
     const validPassword = process.env.AUTH_PASSWORD || 'password';
 

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Between, FindOptionsWhere, Like, IsNull } from 'typeorm';
 import { Product } from './product.entity';
 import { FilterProductsDto } from './dto/filter-products.dto';
+import { ContentfulEntry } from '../types/contentful';
 
 @Injectable()
 export class ProductsService {
@@ -11,7 +12,7 @@ export class ProductsService {
     private readonly repo: Repository<Product>,
   ) {}
 
-  async upsertFromContentful(entry: any): Promise<Product> {
+  async upsertFromContentful(entry: ContentfulEntry): Promise<Product> {
     const sysId = entry.sys.id;
     const createdAt = entry.sys.createdAt;
     const updatedAt = entry.sys.updatedAt;
@@ -21,13 +22,15 @@ export class ProductsService {
     const name = fields.name ?? null;
     const brand = fields.brand ?? null;
     const model = fields.model ?? null;
-    const category = fields.category;
+    const category = fields.category ?? null;
     const color = fields.color ?? null;
     const price = fields.price ?? null;
     const currency = fields.currency ?? null;
     const stock = fields.stock ?? null;
 
-    let product = await this.repo.findOne({ where: { sys_id: sysId } });
+    let product: Product | null = await this.repo.findOne({
+      where: { sys_id: sysId },
+    });
 
     if (product && product.deleted) {
       return product;
@@ -46,8 +49,8 @@ export class ProductsService {
     product.color = color;
     product.currency = currency;
     product.stock = stock;
-    product.created_at = createdAt;
-    product.updated_at = updatedAt;
+    product.created_at = new Date(createdAt);
+    product.updated_at = new Date(updatedAt);
 
     return this.repo.save(product);
   }
