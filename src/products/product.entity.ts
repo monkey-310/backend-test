@@ -9,31 +9,31 @@ export class Product {
   @Column()
   sys_id: string;
 
-  @Column()
+  @Column({ nullable: true })
   sku: string;
 
-  @Column()
+  @Column({ nullable: true })
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   brand: string;
 
-  @Column()
+  @Column({ nullable: true })
   model: string;
 
-  @Column()
+  @Column({ nullable: true })
   color: string;
 
   @Column()
   category: string;
 
-  @Column({ type: 'numeric' })
+  @Column({ type: 'numeric', nullable: true })
   price: number;
 
-  @Column()
+  @Column({ nullable: true })
   currency: string;
 
-  @Column({ type: 'numeric' })
+  @Column({ type: 'numeric', nullable: true })
   stock: number;
 
   @Column({ default: false })

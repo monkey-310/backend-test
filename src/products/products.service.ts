@@ -17,15 +17,15 @@ export class ProductsService {
     const updatedAt = entry.sys.updatedAt;
     const fields = entry.fields;
 
-    const sku = fields.sku;
-    const name = fields.name;
-    const brand = fields.brand;
-    const model = fields.model;
+    const sku = fields.sku ?? null;
+    const name = fields.name ?? null;
+    const brand = fields.brand ?? null;
+    const model = fields.model ?? null;
     const category = fields.category;
-    const color = fields.color;
-    const price = fields.price;
-    const currency = fields.currency;
-    const stock = fields.stock;
+    const color = fields.color ?? null;
+    const price = fields.price ?? null;
+    const currency = fields.currency ?? null;
+    const stock = fields.stock ?? null;
 
     let product = await this.repo.findOne({ where: { sys_id: sysId } });
 
