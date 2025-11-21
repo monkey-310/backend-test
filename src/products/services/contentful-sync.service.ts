@@ -1,18 +1,26 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import axios from 'axios';
 import { ProductsService } from '../products.service';
 
 @Injectable()
-export class ContentfulSyncService {
+export class ContentfulSyncService implements OnApplicationBootstrap {
   private readonly logger = new Logger(ContentfulSyncService.name);
 
   constructor(private readonly productsService: ProductsService) {}
 
+  async onApplicationBootstrap() {
+    this.logger.log('Application started - triggering initial Contentful sync...');
+    await this.syncFromContentful();
+  }
+
   @Cron(CronExpression.EVERY_HOUR)
   async handleCron() {
-    this.logger.log('Starting Contentful sync...');
+    this.logger.log('Scheduled Contentful sync triggered...');
+    await this.syncFromContentful();
+  }
 
+  private async syncFromContentful() {
     const spaceId = process.env.CONTENTFUL_SPACE_ID;
     const environmentId = process.env.CONTENTFUL_ENVIRONMENT;
     const accessToken = process.env.CONTENTFUL_ACCESS_TOKEN;
