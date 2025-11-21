@@ -9,28 +9,28 @@ export class Product {
   @Column()
   sys_id: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   sku: string | null;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   name: string | null;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   brand: string | null;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   model: string | null;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   color: string | null;
 
-  @Column()
+  @Column({ type: 'varchar'})
   category: string;
 
   @Column({ type: 'numeric', nullable: true })
   price: number | null;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   currency: string | null;
 
   @Column({ type: 'numeric', nullable: true })
